@@ -13,13 +13,13 @@ class TinderBot():
         sleep(5)
 
         # click login via facebook button
-        try:
-            fb_login = self.driver.find_element_by_xpath(
-                '//*[@id="modal-manager"]/div/div/div/div/div[3]/span/div[2]/button')
-            fb_login.click()
-        except Exception:
-            try:
-                more_options = self.driver.find_element_by_xpath()
+        # try:
+        fb_login = self.driver.find_element_by_xpath(
+            '//*[@id="modal-manager"]/div/div/div/div/div[3]/span/div[2]/button')
+        fb_login.click()
+        # except Exception:
+        #     try:
+        #         more_options = self.driver.find_element_by_xpath()
 
         # switch to login window
         base_window = self.driver.window_handles[0]
@@ -76,7 +76,12 @@ class TinderBot():
                 try:
                     self.close_popup()
                 except Exception:
-                    self.close_match()
+                    try:
+                        self.close_match()
+                    except Exception:
+                        self.out_of_likes()
+                        print('You are out of likes.')
+                        break
 
     # close advertisement popup
     def close_popup(self):
@@ -89,6 +94,12 @@ class TinderBot():
         match_popup = self.driver.find_element_by_xpath(
             '//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/a')
         match_popup.click()
+
+    # close out of likes popup
+    def out_of_likes(self):
+        out_of_likes = self.driver.find_element_by_xpath(
+            '//*[@id="modal-manager"]/div/div/div[3]/button[2]')
+        out_of_likes.click()
 
 
 bot = TinderBot()
